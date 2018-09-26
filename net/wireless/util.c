@@ -689,6 +689,8 @@ void ieee80211_amsdu_to_8023s(struct sk_buff *skb, struct sk_buff_head *list,
 			   ether_addr_equal(payload, bridge_tunnel_header))) {
 			eth.h_proto = htons(ethertype);
 			skb_pull(frame, ETH_ALEN + 2);
+		} else {
+			eth.h_proto = htons(payload[0] << 8 | payload[1]);
 		}
 
 		memcpy(skb_push(frame, sizeof(eth)), &eth, sizeof(eth));
